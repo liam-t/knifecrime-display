@@ -5,7 +5,7 @@ import {
   scaleLinear,
   extent,
   line,
-  curveCardinal,
+  curveBundle,
 } from 'd3';
 import ReactResizeDetector from 'react-resize-detector';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
@@ -46,15 +46,23 @@ const RegionGraph = ({
   const genPoints = data.points.map(({ knifeCrime }, i) => (
     [xScale(i), yScale(knifeCrime)]
   ));
-  const lineGenerator = line().curve(curveCardinal);
-  const linePath = lineGenerator(genPoints);
+  const getLine = (points = genPoints, beta = 0.8) => (
+    line().curve(curveBundle.beta(beta))(points)
+  );
 
   return (
     <RegionGraphWrap>
       <Name>{name}</Name>
       <ReactResizeDetector handleWidth handleHeight onResize={handleResize}>
         <Svg>
-          <LinePath d={linePath} />
+          {new Array(11).fill(0).map((_, i) => (
+            <LinePath
+              key={i}
+              d={getLine(genPoints, i * 0.1)}
+              opacity={(i + 1) * 0.1}
+              // strokeWidth={(i + 1) * 0.2}
+            />
+          ))}
           {data.points.map(({ year, quarter, knifeCrime }, i) => (
             <Circle
               key={`${year}-${quarter}`}
@@ -94,6 +102,5 @@ const Circle = styled.circle`
 `;
 const LinePath = styled.path`
   stroke: black;
-  stroke-width: 1;
   fill: none;
 `;
