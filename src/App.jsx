@@ -7,11 +7,13 @@ function App() {
   const londonRegion = data.knifeCrimeDataPointsByRegion.find(({ name }) => name === 'London');
   return (
     <AppWrap>
-      <RegionGraph data={londonRegion} />
+      <RegionGraph name="London" data={londonRegion} />
     </AppWrap>
   );
 }
 
 export default App;
 
-const AppWrap = styled.div``;
+const AppWrap = styled.div`
+  background-color: #ffd;
+`;

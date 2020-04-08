@@ -1,58 +1,99 @@
 import React from 'react';
 import PT from 'prop-types';
 import styled from 'styled-components';
-import { scaleLinear, extent } from 'd3';
-import { withResizeDetector } from 'react-resize-detector';
+import {
+  scaleLinear,
+  extent,
+  line,
+  curveCardinal,
+} from 'd3';
+import ReactResizeDetector from 'react-resize-detector';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
 
 const propTypes = {
+  name: PT.string.isRequired,
   data: regionDef.isRequired,
-  width: PT.number,
-  height: PT.number,
-};
-const defaultProps = {
-  width: 0,
-  height: 0,
 };
 
-const RegionGraph = ({ width, height, data }) => {
-  // const xScale = scaleLinear(domain, range);
+const RegionGraph = ({
+  name,
+  data,
+}) => {
+  const [width, setWidth] = React.useState(0);
+  const [height, setHeight] = React.useState(0);
+  const handleResize = (newWidth, newHeight) => {
+    setWidth(newWidth);
+    setHeight(newHeight);
+  };
+  const clickHandleCircle = ({ year, quarter, knifeCrime }) => {
+    console.log(`Year: ${year}`);
+    console.log(`Quarter: ${quarter}`);
+    console.log(`Total Knife Crime: ${knifeCrime}`);
+    console.log('');
+  };
 
-  const yDomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
-  const yRange = [0, height];
-  const yScale = scaleLinear(yDomain, yRange);
+  const pad = 30;
 
+
+  const valDdomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
+  const pointsDomain = [0, data.points.length];
+  const xRange = [pad, width - pad];
+  const yRange = [height - pad, pad];
+  const xScale = scaleLinear(pointsDomain, xRange);
+  const yScale = scaleLinear(valDdomain, yRange);
+
+  const radiusScale = scaleLinear(valDdomain, [2, 6]);
+  const genPoints = data.points.map(({ knifeCrime }, i) => (
+    [xScale(i), yScale(knifeCrime)]
+  ));
+  const lineGenerator = line().curve(curveCardinal);
+  const linePath = lineGenerator(genPoints);
 
   return (
     <RegionGraphWrap>
-      <p>width: {width}</p>
-      <p>height: {height}</p>
-      <Svg>
-        {data.points.map(({ year, quarter, knifeCrime }, i) => (
-          <Circle
-            key={`${year}-${quarter}`}
-            r={5}
-            cx={(width / data.points.length) * i}
-            cy={yScale(knifeCrime)}
-            fill="black"
-          />
-        ))}
-      </Svg>
+      <Name>{name}</Name>
+      <ReactResizeDetector handleWidth handleHeight onResize={handleResize}>
+        <Svg>
+          <LinePath d={linePath} />
+          {data.points.map(({ year, quarter, knifeCrime }, i) => (
+            <Circle
+              key={`${year}-${quarter}`}
+              r={radiusScale(knifeCrime)}
+              cx={xScale(i)}
+              cy={yScale(knifeCrime)}
+              fill="black"
+              onClick={() => clickHandleCircle({ year, quarter, knifeCrime })}
+            />
+          ))}
+        </Svg>
+      </ReactResizeDetector>
     </RegionGraphWrap>
   );
 };
 RegionGraph.propTypes = propTypes;
-RegionGraph.defaultProps = defaultProps;
 
-export default withResizeDetector(RegionGraph);
+export default RegionGraph;
 
 const RegionGraphWrap = styled.div`
   position: relative;
-  min-height: 500px;
+  height: 500px;
+  max-height: 100vh;
 `;
+const Name = styled.h2``;
 const Svg = styled.svg`
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 `;
-const Circle = styled.circle``;
+const Circle = styled.circle`
+  stroke: black;
+  stroke-width: 1;
+  fill: white;
+`;
+const LinePath = styled.path`
+  stroke: black;
+  stroke-width: 1;
+  fill: none;
+`;
