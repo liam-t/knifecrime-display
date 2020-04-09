@@ -1,78 +1,98 @@
 import React from 'react';
-import PT from 'prop-types';
+// import PT from 'prop-types';
 import styled from 'styled-components';
 import {
   scaleLinear,
+  scaleTime,
   extent,
   line,
   curveBundle,
+  select,
+  axisBottom,
+  axisLeft,
 } from 'd3';
 import ReactResizeDetector from 'react-resize-detector';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
 
 const propTypes = {
-  name: PT.string.isRequired,
   data: regionDef.isRequired,
 };
 
 const RegionGraph = ({
-  name,
   data,
 }) => {
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
+  const pad = 50;
+  const innerWidth = width - (pad * 2);
+  const innerHeight = height - (pad * 2);
   const handleResize = (newWidth, newHeight) => {
     setWidth(newWidth);
     setHeight(newHeight);
   };
-  const clickHandleCircle = ({ year, quarter, knifeCrime }) => {
-    console.log(`Year: ${year}`);
-    console.log(`Quarter: ${quarter}`);
-    console.log(`Total Knife Crime: ${knifeCrime}`);
-    console.log('');
+  const clickHandleCircle = () => {};
+
+  const getTimeObj = (point) => {
+    const [year] = point.year.split('/');
+    const month = (point.quarter.split('')[1] * 3) - 1;
+    return new Date(year, month);
   };
 
-  const pad = 30;
-
-
   const valDdomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
-  const pointsDomain = [0, data.points.length];
-  const xRange = [pad, width - pad];
-  const yRange = [height - pad, pad];
-  const xScale = scaleLinear(pointsDomain, xRange);
+  // const pointsDomain = [0, data.points.length];
+  const timeDomain = [getTimeObj(data.points[0]), getTimeObj(data.points[data.points.length - 1])];
+  const xRange = [0, innerWidth];
+  const yRange = [innerHeight, 0];
+  const xScale = scaleTime(timeDomain, xRange);
   const yScale = scaleLinear(valDdomain, yRange);
 
   const radiusScale = scaleLinear(valDdomain, [2, 6]);
-  const genPoints = data.points.map(({ knifeCrime }, i) => (
-    [xScale(i), yScale(knifeCrime)]
+  const genPoints = data.points.map((point) => (
+    [xScale(getTimeObj(point)), yScale(point.knifeCrime)]
   ));
   const getLine = (points = genPoints, beta = 0.8) => (
     line().curve(curveBundle.beta(beta))(points)
   );
 
+  const xAxisRef = React.useRef(null);
+  const xAxisGen = axisBottom(xScale);
+  xAxisGen(select(xAxisRef.current));
+
+  const yAxisRef = React.useRef(null);
+  const yAxisGen = axisLeft(yScale)
+    .ticks(20, 's')
+    .tickPadding(5);
+  yAxisGen(select(yAxisRef.current));
+
   return (
     <RegionGraphWrap>
-      <Name>{name}</Name>
       <ReactResizeDetector handleWidth handleHeight onResize={handleResize}>
         <Svg>
-          {new Array(11).fill(0).map((_, i) => (
-            <LinePath
-              key={i}
-              d={getLine(genPoints, i * 0.1)}
-              opacity={(i + 1) * 0.1}
-              // strokeWidth={(i + 1) * 0.2}
-            />
-          ))}
-          {data.points.map(({ year, quarter, knifeCrime }, i) => (
-            <Circle
-              key={`${year}-${quarter}`}
-              r={radiusScale(knifeCrime)}
-              cx={xScale(i)}
-              cy={yScale(knifeCrime)}
-              fill="black"
-              onClick={() => clickHandleCircle({ year, quarter, knifeCrime })}
-            />
-          ))}
+          <PadTransform transform={`translate(${pad} ${pad})`}>
+            <Xaxis ref={xAxisRef} transform={`translate(0 ${innerHeight})`} />
+            <Yaxis ref={yAxisRef} />
+            {new Array(11).fill(0).map((_, i) => (
+              <LinePath
+                key={i}
+                d={getLine(genPoints, i * 0.1)}
+                opacity={(i + 1) * 0.1}
+                // strokeWidth={(i + 1) * 0.15}
+              />
+            ))}
+            {data.points.map((point) => {
+              const { year, quarter, knifeCrime } = point;
+              return (
+                <Circle
+                  key={`${year}-${quarter}`}
+                  r={radiusScale(knifeCrime)}
+                  cx={xScale(getTimeObj(point))}
+                  cy={yScale(knifeCrime)}
+                  fill="black"
+                  onClick={() => clickHandleCircle({ year, quarter, knifeCrime })}
+                />
+              );
+            })}
+          </PadTransform>
         </Svg>
       </ReactResizeDetector>
     </RegionGraphWrap>
@@ -85,9 +105,12 @@ export default RegionGraph;
 const RegionGraphWrap = styled.div`
   position: relative;
   height: 500px;
+  width: 900px;
+  max-width: 100%;
   max-height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
-const Name = styled.h2``;
 const Svg = styled.svg`
   position: absolute;
   top: 0;
@@ -95,10 +118,22 @@ const Svg = styled.svg`
   width: 100%;
   height: 100%;
 `;
+const Xaxis = styled.g`
+  .domain {
+    stroke-width: 3px;
+  }
+`;
+const Yaxis = styled.g`
+  .domain {
+    stroke-width: 3px;
+  }
+`;
+const PadTransform = styled.g``;
 const Circle = styled.circle`
   stroke: black;
   stroke-width: 1;
   fill: white;
+  cursor: pointer;
 `;
 const LinePath = styled.path`
   stroke: black;
