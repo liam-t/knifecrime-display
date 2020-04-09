@@ -40,12 +40,14 @@ const Title = styled.h1`
   margin: 0;
   font-size: 3rem;
   font-weight: 900;
+  line-height: 1.2em;
 `;
 
 const Subtitle = styled.h2`
   margin: 0;
   font-size: 2rem;
   font-weight: 400;
+  line-height: 1.2em;
 `;
 
 const GraphWrap = styled.div`
