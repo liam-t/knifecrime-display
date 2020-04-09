@@ -23,7 +23,7 @@ const RegionGraph = ({
 }) => {
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
-  const pad = 50;
+  const pad = 40;
   const innerWidth = width - (pad * 2);
   const innerHeight = height - (pad * 2);
   const handleResize = (newWidth, newHeight) => {
@@ -107,7 +107,7 @@ const RegionGraphWrap = styled.div`
   height: 500px;
   width: 900px;
   max-width: 100%;
-  max-height: 100vh;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
 `;
