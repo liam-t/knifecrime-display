@@ -1,5 +1,5 @@
 import React from 'react';
-// import PT from 'prop-types';
+import PT from 'prop-types';
 import styled from 'styled-components';
 import {
   scaleLinear,
@@ -16,10 +16,15 @@ import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index
 
 const propTypes = {
   data: regionDef.isRequired,
+  decoratve: PT.bool,
+};
+const defaultProps = {
+  decoratve: false,
 };
 
 const RegionGraph = ({
   data,
+  decoratve,
 }) => {
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
@@ -39,7 +44,6 @@ const RegionGraph = ({
   };
 
   const valDdomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
-  // const pointsDomain = [0, data.points.length];
   const timeDomain = [getTimeObj(data.points[0]), getTimeObj(data.points[data.points.length - 1])];
   const xRange = [0, innerWidth];
   const yRange = [innerHeight, 0];
@@ -71,15 +75,18 @@ const RegionGraph = ({
           <PadTransform transform={`translate(${pad} ${pad})`}>
             <Xaxis ref={xAxisRef} transform={`translate(0 ${innerHeight})`} />
             <Yaxis ref={yAxisRef} />
-            {new Array(11).fill(0).map((_, i) => (
-              <LinePath
-                key={i}
-                d={getBundleLine(genPoints, i * 0.1)}
-                opacity={(i + 1) * 0.1}
-                // strokeWidth={(i + 1) * 0.15}
-              />
-            ))}
-            {/* <LinePath d={line()(genPoints)} /> */}
+            {decoratve ? (
+              new Array(11).fill(0).map((_, i) => (
+                <LinePath
+                  key={i}
+                  d={getBundleLine(genPoints, i * 0.1)}
+                  opacity={(i + 1) * 0.1}
+                  // strokeWidth={(i + 1) * 0.15}
+                />
+              ))
+            ) : (
+              <LinePath d={line()(genPoints)} />
+            )}
             {data.points.map((point) => {
               const { year, quarter, knifeCrime } = point;
               return (
@@ -100,6 +107,7 @@ const RegionGraph = ({
   );
 };
 RegionGraph.propTypes = propTypes;
+RegionGraph.defaultProps = defaultProps;
 
 export default RegionGraph;
 
