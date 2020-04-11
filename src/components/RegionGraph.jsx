@@ -1,12 +1,12 @@
 import React from 'react';
-import PT from 'prop-types';
+// import PT from 'prop-types';
 import styled from 'styled-components';
 import {
   scaleLinear,
   scaleTime,
   extent,
   line,
-  curveBundle,
+  area,
   select,
   axisBottom,
   axisLeft,
@@ -16,15 +16,11 @@ import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index
 
 const propTypes = {
   data: regionDef.isRequired,
-  decoratve: PT.bool,
 };
-const defaultProps = {
-  decoratve: false,
-};
+const defaultProps = {};
 
 const RegionGraph = ({
   data,
-  decoratve,
 }) => {
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
@@ -35,7 +31,7 @@ const RegionGraph = ({
     setWidth(newWidth);
     setHeight(newHeight);
   };
-  const clickHandleCircle = () => {};
+  // const clickHandleCircle = () => {};
 
   const getTimeObj = (point) => {
     const [year] = point.year.split('/');
@@ -46,17 +42,16 @@ const RegionGraph = ({
   const valDdomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
   const timeDomain = [getTimeObj(data.points[0]), getTimeObj(data.points[data.points.length - 1])];
   const xRange = [0, innerWidth];
-  const yRange = [innerHeight, 0];
+  const yRange = [0, innerHeight];
   const xScale = scaleTime(timeDomain, xRange);
   const yScale = scaleLinear(valDdomain, yRange);
 
-  const radiusScale = scaleLinear(valDdomain, [2, 6]);
+  // const radiusScale = scaleLinear(valDdomain, [2, 6]);
   const genPoints = data.points.map((point) => (
     [xScale(getTimeObj(point)), yScale(point.knifeCrime)]
   ));
-  const getBundleLine = (points = genPoints, beta = 0.8) => (
-    line().curve(curveBundle.beta(beta))(points)
-  );
+
+  const areaPath = area()(genPoints);
 
   const xAxisRef = React.useRef(null);
   const xAxisGen = axisBottom(xScale);
@@ -73,21 +68,11 @@ const RegionGraph = ({
       <ReactResizeDetector handleWidth handleHeight onResize={handleResize}>
         <Svg>
           <PadTransform transform={`translate(${pad} ${pad})`}>
-            <Xaxis ref={xAxisRef} transform={`translate(0 ${innerHeight})`} />
-            <Yaxis ref={yAxisRef} />
-            {decoratve ? (
-              new Array(11).fill(0).map((_, i) => (
-                <LinePath
-                  key={i}
-                  d={getBundleLine(genPoints, i * 0.1)}
-                  opacity={(i + 1) * 0.1}
-                  // strokeWidth={(i + 1) * 0.15}
-                />
-              ))
-            ) : (
-              <LinePath d={line()(genPoints)} />
-            )}
-            {data.points.map((point) => {
+            {/* <Xaxis ref={xAxisRef} transform={`translate(0 ${innerHeight})`} /> */}
+            {/* <Yaxis ref={yAxisRef} /> */}
+            {/* <LinePath d={line()(genPoints)} /> */}
+            <AreaPath d={areaPath} />
+            {/* {data.points.map((point) => {
               const { year, quarter, knifeCrime } = point;
               return (
                 <Circle
@@ -99,7 +84,7 @@ const RegionGraph = ({
                   onClick={() => clickHandleCircle({ year, quarter, knifeCrime })}
                 />
               );
-            })}
+            })} */}
           </PadTransform>
         </Svg>
       </ReactResizeDetector>
@@ -139,13 +124,16 @@ const Yaxis = styled.g`
   }
 `;
 const PadTransform = styled.g``;
-const Circle = styled.circle`
-  stroke: black;
-  stroke-width: 1;
-  fill: white;
-  cursor: pointer;
-`;
+// const Circle = styled.circle`
+//   stroke-width: 1;
+//   fill: white;
+//   cursor: pointer;
+// `;
 const LinePath = styled.path`
-  stroke: black;
+  stroke: white;
   fill: none;
+`;
+const AreaPath = styled.path`
+  stroke: white;
+  fill: rgba(255, 255, 255, 0.2);
 `;

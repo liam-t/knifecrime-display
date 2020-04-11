@@ -7,7 +7,6 @@ import RegionSelector from 'components/RegionSelector';
 
 function App() {
   const [selectedRegion, setSelectedRegion] = React.useState('London');
-  const [isDecorativeGraph] = React.useState(true);
   const selectedRegionData = data.knifeCrimeDataPointsByRegion.find(({ name }) => (
     name === selectedRegion
   ));
@@ -28,10 +27,7 @@ function App() {
         </RegionSelectorWrap>
       </Header>
       <GraphWrap>
-        <RegionGraph
-          data={selectedRegionData}
-          decoratve={isDecorativeGraph}
-        />
+        <RegionGraph data={selectedRegionData} />
       </GraphWrap>
       <GlobalStyle />
     </AppWrap>
@@ -46,7 +42,8 @@ const AppWrap = styled.div`
   flex-direction: column;
   justify-content: center;
   flex: 1 1 auto;
-  background-color: #ffd;
+  background-color: #222;
+  color: white;
   padding: 20px;
   @media screen and (min-width: 768px) {
     padding: 40px;
@@ -76,6 +73,7 @@ const Subtitle = styled.h2`
 const RegionSelectorWrap = styled.div`
   width: 10em;
   max-width: 100%;
+  color: black;
 `;
 const GraphWrap = styled.div`
   max-width: 100%;
