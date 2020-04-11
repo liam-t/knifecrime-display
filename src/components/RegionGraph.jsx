@@ -112,11 +112,12 @@ RegionGraph.defaultProps = defaultProps;
 export default RegionGraph;
 
 const RegionGraphWrap = styled.div`
+  flex: 1 0 auto;
   position: relative;
-  height: 500px;
   width: 900px;
   max-width: 100%;
-  max-height: 90vh;
+  min-height: 400px;
+  max-height: 500px;
   display: flex;
   flex-direction: column;
 `;

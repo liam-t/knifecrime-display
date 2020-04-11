@@ -7,6 +7,7 @@ import RegionSelector from 'components/RegionSelector';
 
 function App() {
   const [selectedRegion, setSelectedRegion] = React.useState('London');
+  const [isDecorativeGraph] = React.useState(true);
   const selectedRegionData = data.knifeCrimeDataPointsByRegion.find(({ name }) => (
     name === selectedRegion
   ));
@@ -29,7 +30,7 @@ function App() {
       <GraphWrap>
         <RegionGraph
           data={selectedRegionData}
-          decoratve
+          decoratve={isDecorativeGraph}
         />
       </GraphWrap>
       <GlobalStyle />
