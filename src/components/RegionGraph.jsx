@@ -50,7 +50,7 @@ const RegionGraph = ({
   const genPoints = data.points.map((point) => (
     [xScale(getTimeObj(point)), yScale(point.knifeCrime)]
   ));
-  const getLine = (points = genPoints, beta = 0.8) => (
+  const getBundleLine = (points = genPoints, beta = 0.8) => (
     line().curve(curveBundle.beta(beta))(points)
   );
 
@@ -74,11 +74,12 @@ const RegionGraph = ({
             {new Array(11).fill(0).map((_, i) => (
               <LinePath
                 key={i}
-                d={getLine(genPoints, i * 0.1)}
+                d={getBundleLine(genPoints, i * 0.1)}
                 opacity={(i + 1) * 0.1}
                 // strokeWidth={(i + 1) * 0.15}
               />
             ))}
+            {/* <LinePath d={line()(genPoints)} /> */}
             {data.points.map((point) => {
               const { year, quarter, knifeCrime } = point;
               return (
