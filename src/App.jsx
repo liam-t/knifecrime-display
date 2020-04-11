@@ -27,7 +27,10 @@ function App() {
         </RegionSelectorWrap>
       </Header>
       <GraphWrap>
-        <RegionGraph data={selectedRegionData} />
+        <RegionGraph
+          data={selectedRegionData}
+          decoratve
+        />
       </GraphWrap>
       <GlobalStyle />
     </AppWrap>
@@ -54,6 +57,7 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  margin-bottom: 10px;
 `;
 const Titling = styled.div``;
 const Title = styled.h1`
@@ -69,7 +73,6 @@ const Subtitle = styled.h2`
   line-height: 1.2em;
 `;
 const RegionSelectorWrap = styled.div`
-  margin: 40px 0 20px;
   width: 10em;
   max-width: 100%;
 `;
