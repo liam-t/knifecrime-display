@@ -3,16 +3,29 @@ import styled from 'styled-components';
 import RegionGraph from 'components/RegionGraph.jsx';
 import data from 'data/data.json';
 import GlobalStyle from 'globalStyle';
+import RegionSelector from 'components/RegionSelector';
 
 function App() {
-  const [selectedRegion] = React.useState('London');
+  const [selectedRegion, setSelectedRegion] = React.useState('London');
   const selectedRegionData = data.knifeCrimeDataPointsByRegion.find(({ name }) => (
     name === selectedRegion
   ));
+  const onRegionChange = (name) => setSelectedRegion(name);
   return (
     <AppWrap>
-      <Title>{selectedRegion}</Title>
-      <Subtitle>Knife crime over time</Subtitle>
+      <Header>
+        <Titling>
+          <Title>{selectedRegion}</Title>
+          <Subtitle>Knife crime over time</Subtitle>
+        </Titling>
+        <RegionSelectorWrap>
+          <RegionSelector
+            names={data.knifeCrimeDataPointsByRegion.map(({ name }) => name)}
+            onChange={onRegionChange}
+            selectedRegion={selectedRegion}
+          />
+        </RegionSelectorWrap>
+      </Header>
       <GraphWrap>
         <RegionGraph data={selectedRegionData} />
       </GraphWrap>
@@ -35,21 +48,31 @@ const AppWrap = styled.div`
     padding: 40px;
   }
 `;
-
+const Header = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+const Titling = styled.div``;
 const Title = styled.h1`
   margin: 0;
   font-size: 3rem;
   font-weight: 900;
   line-height: 1.2em;
 `;
-
 const Subtitle = styled.h2`
   margin: 0;
   font-size: 2rem;
   font-weight: 400;
   line-height: 1.2em;
 `;
-
+const RegionSelectorWrap = styled.div`
+  margin: 40px 0 20px;
+  width: 10em;
+  max-width: 100%;
+`;
 const GraphWrap = styled.div`
   max-width: 100%;
   display: flex;
