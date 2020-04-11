@@ -10,7 +10,7 @@ const Boilerplate = () => {
       <p>Hi i&apos;m Boilerplate!</p>
     </BoilerplateWrap>
   );
-}
+};
 Boilerplate.propTypes = propTypes;
 
 export default Boilerplate;
