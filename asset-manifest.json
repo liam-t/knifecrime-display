@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/knifecrime-display/static/js/main.500ce7fb.chunk.js",
+    "main.js.map": "/knifecrime-display/static/js/main.500ce7fb.chunk.js.map",
+    "runtime-main.js": "/knifecrime-display/static/js/runtime-main.d63b698d.js",
+    "runtime-main.js.map": "/knifecrime-display/static/js/runtime-main.d63b698d.js.map",
+    "static/js/2.e568ccc1.chunk.js": "/knifecrime-display/static/js/2.e568ccc1.chunk.js",
+    "static/js/2.e568ccc1.chunk.js.map": "/knifecrime-display/static/js/2.e568ccc1.chunk.js.map",
+    "index.html": "/knifecrime-display/index.html",
+    "precache-manifest.646620b55c8c74e52d0667fdec880a20.js": "/knifecrime-display/precache-manifest.646620b55c8c74e52d0667fdec880a20.js",
+    "service-worker.js": "/knifecrime-display/service-worker.js",
+    "static/js/2.e568ccc1.chunk.js.LICENSE.txt": "/knifecrime-display/static/js/2.e568ccc1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d63b698d.js",
+    "static/js/2.e568ccc1.chunk.js",
+    "static/js/main.500ce7fb.chunk.js"
+  ]
+}
