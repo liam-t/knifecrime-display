@@ -4,6 +4,12 @@ import styled from 'styled-components/macro';
 import ReactResizeDetector from 'react-resize-detector';
 import Frame from 'components/KnifeGraph/Frame';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
+import {
+  collar as getCollarPath,
+  graph as getGraphPath,
+  handle as getHandlePath,
+  tip as getTipPath,
+} from './pathSections';
 
 const propTypes = {
   data: regionDef.isRequired,
@@ -17,10 +23,22 @@ const KnifeGraph = ({ data }) => {
     setHeight(newHeight);
   };
 
+  const pathCreators = {
+    getCollarPath,
+    getGraphPath,
+    getHandlePath,
+    getTipPath,
+  };
+
   return (
     <KnifeGraphWrap>
       <ReactResizeDetector handleWidth handleHeight onResize={handleResize}>
-        <Frame width={width} height={height} data={data} />
+        <Frame
+          width={width}
+          height={height}
+          data={data}
+          pathCreators={pathCreators}
+        />
       </ReactResizeDetector>
     </KnifeGraphWrap>
   );

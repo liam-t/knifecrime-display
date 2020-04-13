@@ -2,15 +2,17 @@ import React from 'react';
 import PT from 'prop-types';
 import styled, { css } from 'styled-components/macro';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
-import GraphSvg from './GraphSvg';
-import LeftCap from './LeftCap';
-import RightCap from './RightCap';
-import Handle from './Handle';
 
 const propTypes = {
   data: regionDef.isRequired,
   width: PT.number,
   height: PT.number,
+  pathCreators: PT.shape({
+    getCollarPath: PT.func.isRequired,
+    getGraphPath: PT.func.isRequired,
+    getHandlePath: PT.func.isRequired,
+    getTipPath: PT.func.isRequired,
+  }).isRequired,
 };
 
 const defaultProps = {
@@ -18,7 +20,12 @@ const defaultProps = {
   height: 0,
 };
 
-const Frame = ({ data, width, height }) => {
+const Frame = ({
+  data,
+  width,
+  height,
+  pathCreators,
+}) => {
   const pad = 50;
   const innerWidth = Math.max(width - (pad * 2), 0);
   const innerHeight = Math.max(height - (pad * 2), 0);
@@ -38,41 +45,34 @@ const Frame = ({ data, width, height }) => {
     ), 0);
   };
 
-  const handleYMulti = 0.08;
-  const handleTransform = `
-    translate(
-      ${getWidth(['leftCap', 'graphSvg', 'rightCap']) - 3}
-      ${cappedInnerHeight * (handleYMulti * -1)}
-    )
-  `;
+  // const handleYMulti = 0.08;
+  // const handleTransform = `
+  //   translate(
+  //     ${getWidth(['leftCap', 'graphSvg', 'rightCap']) - 3}
+  //     ${cappedInnerHeight * (handleYMulti * -1)}
+  //   )
+  // `;
+
+  const joinPaths = (...paths) => {
+    const joined = paths.reduce((acc, path) => (
+      `${acc} ${path}`
+    ), '');
+    return joined;
+  };
+
+  const compPath = joinPaths(
+    pathCreators.getCollarPath(data),
+    pathCreators.getGraphPath(data),
+    pathCreators.getHandlePath(data),
+    pathCreators.getTipPath(data),
+  );
 
   return (
     <FrameWrap>
       <Svg>
         <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
           <PadTransform transform={`translate(${pad} ${pad})`}>
-            <Wrap transform={`translate(${getWidth('leftCap') - 1} 0)`}>
-              <GraphSvg
-                data={data}
-                width={getWidth('graphSvg')}
-                height={cappedInnerHeight}
-              />
-            </Wrap>
-            <LeftCap
-              width={getWidth('leftCap')}
-              height={cappedInnerHeight}
-            />
-            <RightCap
-              width={getWidth('rightCap')}
-              height={cappedInnerHeight}
-              transform={`translate(${getWidth(['leftCap', 'graphSvg']) - 2} 0)`}
-            />
-            <Wrap transform={handleTransform}>
-              <Handle
-                width={getWidth('handle')}
-                height={cappedInnerHeight * (handleYMulti + 1)}
-              />
-            </Wrap>
+            <KnifePath d={compPath} />
           </PadTransform>
         </CenterTransform>
       </Svg>
@@ -98,6 +98,29 @@ const FrameWrap = styled.div`
 const Svg = styled.svg`
   ${absCss};
 `;
-const Wrap = styled.g``;
+const KnifePath = styled.path``;
 const PadTransform = styled.g``;
 const CenterTransform = styled.g``;
+
+/* <Wrap transform={`translate(${getWidth('leftCap') - 1} 0)`}>
+  <GraphSvg
+    data={data}
+    width={getWidth('graphSvg')}
+    height={cappedInnerHeight}
+  />
+</Wrap>
+<LeftCap
+  width={getWidth('leftCap')}
+  height={cappedInnerHeight}
+/>
+<RightCap
+  width={getWidth('rightCap')}
+  height={cappedInnerHeight}
+  transform={`translate(${getWidth(['leftCap', 'graphSvg']) - 2} 0)`}
+/>
+<Wrap transform={handleTransform}>
+  <Handle
+    width={getWidth('handle')}
+    height={cappedInnerHeight * (handleYMulti + 1)}
+  />
+</Wrap> */
