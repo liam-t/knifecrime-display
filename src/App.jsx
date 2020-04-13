@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import RegionGraph from 'components/RegionGraph.jsx';
+import styled from 'styled-components/macro';
+import KnifeGraph from 'components/KnifeGraph';
 import data from 'data/data.json';
 import GlobalStyle from 'globalStyle';
 import RegionSelector from 'components/RegionSelector';
@@ -27,7 +27,7 @@ function App() {
         </RegionSelectorWrap>
       </Header>
       <GraphWrap>
-        <RegionGraph data={selectedRegionData} />
+        <KnifeGraph data={selectedRegionData} />
       </GraphWrap>
       <GlobalStyle />
     </AppWrap>
@@ -76,6 +76,7 @@ const RegionSelectorWrap = styled.div`
   color: black;
 `;
 const GraphWrap = styled.div`
+  position: relative;
   max-width: 100%;
   display: flex;
   flex-direction: column;

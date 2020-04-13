@@ -1,6 +1,6 @@
 import React from 'react';
 import PT from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import Select from 'react-select';
 
 const propTypes = {
