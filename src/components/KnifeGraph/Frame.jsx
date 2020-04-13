@@ -33,14 +33,14 @@ const Frame = ({
   const cappedInnerHeight = Math.min(innerHeight, innerWidth * 0.11);
 
   const widthPercentages = {
-    leftCap: 25,
-    graphSvg: 40,
-    rightCap: 3,
+    tip: 25,
+    graph: 40,
+    collar: 3,
     handle: 32,
   };
-  const getWidth = (name) => {
-    const nameArraySafe = Array.isArray(name) ? name : [name];
-    return nameArraySafe.reduce((acc, item) => (
+  const getWidth = (...names) => {
+    const flatArraySafe = Array.isArray(names[0]) ? names[0] : names;
+    return flatArraySafe.reduce((acc, item) => (
       acc + (innerWidth * widthPercentages[item]) / 100
     ), 0);
   };
@@ -61,10 +61,22 @@ const Frame = ({
   };
 
   const compPath = joinPaths(
-    pathCreators.getCollarPath(data),
-    pathCreators.getGraphPath(data),
-    pathCreators.getHandlePath(data),
-    pathCreators.getTipPath(data),
+    pathCreators.getTipPath({
+      width: getWidth('tip'),
+      height: cappedInnerHeight,
+    }),
+    pathCreators.getGraphPath({
+      data,
+      width: getWidth('graph'),
+      height: cappedInnerHeight,
+      leftOffset: getWidth('tip'),
+    }),
+    pathCreators.getCollarPath({
+      width: getWidth('collar'),
+      height: cappedInnerHeight,
+      leftOffset: getWidth('tip', 'graph'),
+    }),
+    pathCreators.getHandlePath(),
   );
 
   return (
@@ -98,7 +110,10 @@ const FrameWrap = styled.div`
 const Svg = styled.svg`
   ${absCss};
 `;
-const KnifePath = styled.path``;
+const KnifePath = styled.path`
+  stroke: orange;
+  fill: white;
+`;
 const PadTransform = styled.g``;
 const CenterTransform = styled.g``;
 
