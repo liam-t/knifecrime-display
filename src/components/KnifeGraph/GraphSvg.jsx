@@ -40,7 +40,7 @@ const GraphSvg = ({
   const valDdomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
   const timeDomain = [getTimeObj(data.points[0]), getTimeObj(data.points[data.points.length - 1])];
   const xRange = [0, width];
-  const yRange = [height / 2, height * 0.9];
+  const yRange = [height / 2, height];
   const xScale = scaleTime(timeDomain, xRange);
   const yScale = scaleLinear(valDdomain, yRange);
 
