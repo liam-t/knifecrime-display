@@ -24,5 +24,17 @@ module.exports = {
   rules: {
     'import/extensions': 0,
     'react/jsx-one-expression-per-line': 0,
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [{
+          name: 'styled-components',
+          message: 'Please import from styled-components/macro.',
+        }],
+        patterns: [
+          '!styled-components/macro'
+        ],
+      }
+    ]
   },
 };
