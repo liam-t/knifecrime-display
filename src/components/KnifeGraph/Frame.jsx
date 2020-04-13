@@ -49,30 +49,32 @@ const Frame = ({ data, width, height }) => {
   return (
     <FrameWrap>
       <Svg>
-        <PadTransform transform={`translate(${pad} ${pad})`}>
-          <Wrap transform={`translate(${getWidth('leftCap') - 1} 0)`}>
-            <GraphSvg
-              data={data}
-              width={getWidth('graphSvg')}
+        <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
+          <PadTransform transform={`translate(${pad} ${pad})`}>
+            <Wrap transform={`translate(${getWidth('leftCap') - 1} 0)`}>
+              <GraphSvg
+                data={data}
+                width={getWidth('graphSvg')}
+                height={cappedInnerHeight}
+              />
+            </Wrap>
+            <LeftCap
+              width={getWidth('leftCap')}
               height={cappedInnerHeight}
             />
-          </Wrap>
-          <LeftCap
-            width={getWidth('leftCap')}
-            height={cappedInnerHeight}
-          />
-          <RightCap
-            width={getWidth('rightCap')}
-            height={cappedInnerHeight}
-            transform={`translate(${getWidth(['leftCap', 'graphSvg']) - 2} 0)`}
-          />
-          <Wrap transform={handleTransform}>
-            <Handle
-              width={getWidth('handle')}
-              height={cappedInnerHeight * (handleYMulti + 1)}
+            <RightCap
+              width={getWidth('rightCap')}
+              height={cappedInnerHeight}
+              transform={`translate(${getWidth(['leftCap', 'graphSvg']) - 2} 0)`}
             />
-          </Wrap>
-        </PadTransform>
+            <Wrap transform={handleTransform}>
+              <Handle
+                width={getWidth('handle')}
+                height={cappedInnerHeight * (handleYMulti + 1)}
+              />
+            </Wrap>
+          </PadTransform>
+        </CenterTransform>
       </Svg>
     </FrameWrap>
   );
@@ -98,3 +100,4 @@ const Svg = styled.svg`
 `;
 const Wrap = styled.g``;
 const PadTransform = styled.g``;
+const CenterTransform = styled.g``;
