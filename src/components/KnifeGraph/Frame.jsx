@@ -38,7 +38,7 @@ const Frame = ({ data, width, height }) => {
     ), 0);
   };
 
-  const handleYMulti = 0;
+  const handleYMulti = 0.08;
   const handleTransform = `
     translate(
       ${getWidth(['leftCap', 'graphSvg', 'rightCap']) - 3}
