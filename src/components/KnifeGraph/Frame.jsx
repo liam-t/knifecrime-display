@@ -2,6 +2,7 @@ import React from 'react';
 import PT from 'prop-types';
 import styled, { css } from 'styled-components/macro';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
+import Animator from 'components/Animator';
 
 const propTypes = {
   data: regionDef.isRequired,
@@ -80,7 +81,7 @@ const Frame = ({
       <Svg>
         <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
           <PadTransform transform={`translate(${pad} ${pad})`}>
-            <KnifePath d={compPath} />
+            {innerWidth && <Animator path={compPath} />}
           </PadTransform>
         </CenterTransform>
       </Svg>
@@ -107,7 +108,6 @@ const Svg = styled.svg`
   ${absCss};
 `;
 const KnifePath = styled.path`
-  stroke: orange;
   fill: white;
 `;
 const PadTransform = styled.g``;
