@@ -45,14 +45,6 @@ const Frame = ({
     ), 0);
   };
 
-  // const handleYMulti = 0.08;
-  // const handleTransform = `
-  //   translate(
-  //     ${getWidth(['leftCap', 'graphSvg', 'rightCap']) - 3}
-  //     ${cappedInnerHeight * (handleYMulti * -1)}
-  //   )
-  // `;
-
   const joinPaths = (...paths) => {
     const joined = paths.reduce((acc, path) => (
       `${acc} ${path}`
@@ -120,26 +112,3 @@ const KnifePath = styled.path`
 `;
 const PadTransform = styled.g``;
 const CenterTransform = styled.g``;
-
-/* <Wrap transform={`translate(${getWidth('leftCap') - 1} 0)`}>
-  <GraphSvg
-    data={data}
-    width={getWidth('graphSvg')}
-    height={cappedInnerHeight}
-  />
-</Wrap>
-<LeftCap
-  width={getWidth('leftCap')}
-  height={cappedInnerHeight}
-/>
-<RightCap
-  width={getWidth('rightCap')}
-  height={cappedInnerHeight}
-  transform={`translate(${getWidth(['leftCap', 'graphSvg']) - 2} 0)`}
-/>
-<Wrap transform={handleTransform}>
-  <Handle
-    width={getWidth('handle')}
-    height={cappedInnerHeight * (handleYMulti + 1)}
-  />
-</Wrap> */
