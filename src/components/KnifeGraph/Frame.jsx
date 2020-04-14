@@ -30,7 +30,7 @@ const Frame = ({
   const innerWidth = Math.max(width - (pad * 2), 0);
   const innerHeight = Math.max(height - (pad * 2), 0);
 
-  const cappedInnerHeight = Math.min(innerHeight, innerWidth * 0.11);
+  const cappedInnerHeight = Math.min(innerHeight, innerWidth * 0.15);
 
   const widthPercentages = {
     tip: 25,
@@ -76,7 +76,11 @@ const Frame = ({
       height: cappedInnerHeight,
       leftOffset: getWidth('tip', 'graph'),
     }),
-    pathCreators.getHandlePath(),
+    pathCreators.getHandlePath({
+      width: getWidth('handle'),
+      height: cappedInnerHeight,
+      leftOffset: getWidth('tip', 'graph', 'collar'),
+    }),
   );
 
   return (
