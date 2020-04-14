@@ -8,6 +8,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "d3": "^5.15.1",
+    "flubber": "^0.4.2",
     "gh-pages": "^2.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -15,6 +16,7 @@
     "react-resize-detector": "^4.2.1",
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",
+    "react-spring": "^8.0.27",
     "styled-components": "^5.1.0",
     "svgpath": "^2.2.3"
   },
