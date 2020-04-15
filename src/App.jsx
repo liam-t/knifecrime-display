@@ -27,6 +27,7 @@ function App() {
         </RegionSelectorWrap>
       </Header>
       <GraphWrap>
+        <Decoration />
         <KnifeGraph
           activeData={selectedRegionData}
           allData={data.knifeCrimeDataPointsByRegion}
@@ -85,4 +86,16 @@ const GraphWrap = styled.div`
   flex-direction: column;
   flex: 1 1 auto;
   align-items: center;
+`;
+const Decoration = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  /* height: 100%; */
+  height: 0;
+  padding-bottom: 50%;
+  border-radius: 50%;
+  background-color: #333;
+  transform: translate(-50%, -50%);
 `;
