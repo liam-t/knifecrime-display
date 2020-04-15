@@ -41,8 +41,10 @@ const Axis = styled.g`
   .domain,
   line {
     stroke: ${(p) => p.color};
+    stroke-width: 1.5;
   }
   text {
     fill: ${(p) => p.color};
+    font-weight: bold;
   }
 `;
