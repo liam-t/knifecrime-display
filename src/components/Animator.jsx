@@ -31,12 +31,10 @@ const Animator = ({ className, path }) => {
 
   const flubberPath = flubber(...flubberPaths, flubberOptions);
   return (
-    <>
-      <animated.path
-        className={className}
-        d={spring1.t.interpolate((t) => flubberPath(t))}
-      />
-    </>
+    <animated.path
+      className={className}
+      d={spring1.t.interpolate((t) => flubberPath(t))}
+    />
   );
 };
 Animator.propTypes = propTypes;

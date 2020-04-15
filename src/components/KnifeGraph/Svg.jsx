@@ -115,7 +115,7 @@ const Svg = ({
       <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
         <PadTransform transform={`translate(${pad} ${pad})`}>
           <TipFix d={`${tipPathSection} z`} />
-          <Animator path={compPath} />
+          <AnimatorStyled path={compPath} />
         </PadTransform>
       </CenterTransform>
     </SvgEl>
@@ -133,6 +133,11 @@ const SvgEl = styled.svg`
   width: 100%;
   height: 100%;
 `;
-const TipFix = styled.path``;
+const TipFix = styled.path`
+  fill: black;
+`;
 const PadTransform = styled.g``;
 const CenterTransform = styled.g``;
+const AnimatorStyled = styled(Animator)`
+  fill: black;
+`;
