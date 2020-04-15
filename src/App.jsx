@@ -92,9 +92,9 @@ const Decoration = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 50%;
+  width: 40%;
   height: 0;
-  padding-bottom: 50%;
+  padding-bottom: 40%;
   border-radius: 50%;
   background-color: #333;
   transform: translate(-50%, -50%);
