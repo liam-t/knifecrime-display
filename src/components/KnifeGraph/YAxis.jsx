@@ -16,10 +16,10 @@ const defaultProps = {
 const YAxis = ({ scale, leftOffset, color }) => {
   const ref = React.useRef(null);
   const axisGen = axisLeft(scale.nice())
-    .ticks(7, '1s');
+    .ticks(14, '1s');
   const d3Axis = select(ref.current).call(axisGen);
   d3Axis.selectAll('.tick')
-    .classed('minor', (val, i) => i % 2 !== 0);
+    .classed('minor', (val, i) => i % 4 !== 0);
   return (
     <Axis
       transform={`translate(${leftOffset} 0)`}
@@ -46,7 +46,7 @@ const Axis = styled.g`
   .tick {
     &.minor {
       line {
-        transform: scaleX(0.5);
+        transform: scaleX(0.35);
         stroke-width: 1;
       }
       text {
