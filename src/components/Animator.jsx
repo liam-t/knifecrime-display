@@ -1,7 +1,7 @@
 import React from 'react';
 import PT from 'prop-types';
 import { interpolate as flubber } from 'flubber';
-import { useSpring, animated, config } from 'react-spring';
+import { useSpring, animated } from 'react-spring';
 
 const propTypes = {
   className: PT.string,
@@ -24,10 +24,16 @@ const Animator = ({ className, path }) => {
     t: 1,
     from: { t: 0 },
     reset: true,
-    config: config.stiff,
+    config: {
+      mass: 0.5,
+      tension: 350,
+      friction: 50,
+      clamp: true,
+      velocity: 10,
+    },
   });
 
-  const flubberOptions = { maxSegmentLength: 10 };
+  const flubberOptions = { maxSegmentLength: 5 };
 
   const flubberPath = flubber(...flubberPaths, flubberOptions);
   return (

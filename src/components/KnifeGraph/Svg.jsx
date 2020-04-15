@@ -134,10 +134,10 @@ const SvgEl = styled.svg`
   height: 100%;
 `;
 const TipFix = styled.path`
-  fill: black;
+  fill: #f42;
 `;
 const PadTransform = styled.g``;
 const CenterTransform = styled.g``;
 const AnimatorStyled = styled(Animator)`
-  fill: black;
+  fill: #f42;
 `;
