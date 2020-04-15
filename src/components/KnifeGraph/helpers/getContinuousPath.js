@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 const getContinuousPath = (path, shouldReplaceStart = true, shouldReplaceEnd = true) => {
   let rtn = `${path}`;
   if (shouldReplaceStart) rtn = rtn.replace(/^M/, 'L');
@@ -7,6 +5,4 @@ const getContinuousPath = (path, shouldReplaceStart = true, shouldReplaceEnd = t
   return rtn;
 };
 
-export {
-  getContinuousPath,
-};
+export default getContinuousPath;

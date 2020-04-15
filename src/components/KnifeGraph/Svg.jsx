@@ -3,6 +3,17 @@ import PT from 'prop-types';
 import styled from 'styled-components/macro';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
 import Animator from 'components/Animator';
+import {
+  scaleLog,
+  scaleTime,
+  extent,
+} from 'd3';
+import {
+  getXScale,
+  getYScale,
+  getTimeObj,
+  getContinuousPath,
+} from './helpers/index.js';
 
 const propTypes = {
   activeData: regionDef.isRequired,
@@ -55,6 +66,20 @@ const Svg = ({
     return joined;
   };
 
+  const xScale = getXScale(
+    getWidth('graph'),
+    activeData,
+    getTimeObj,
+    scaleTime,
+    getWidth('tip'),
+  );
+  const yScale = getYScale(
+    cappedInnerHeight,
+    allData,
+    extent,
+    scaleLog,
+  );
+
   const compPath = joinPaths(
     pathCreators.getTipPath({
       width: getWidth('tip'),
@@ -62,10 +87,10 @@ const Svg = ({
     }),
     pathCreators.getGraphPath({
       activeData,
-      allData,
-      width: getWidth('graph'),
-      height: cappedInnerHeight,
-      leftOffset: getWidth('tip'),
+      xScale,
+      yScale,
+      getTimeObj,
+      getContinuousPath,
     }),
     pathCreators.getCollarPath({
       width: getWidth('collar'),
@@ -76,6 +101,7 @@ const Svg = ({
       width: getWidth('handle'),
       height: cappedInnerHeight,
       leftOffset: getWidth('tip', 'graph', 'collar'),
+      getContinuousPath,
     }),
   );
 
@@ -83,7 +109,7 @@ const Svg = ({
     <SvgEl>
       <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
         <PadTransform transform={`translate(${pad} ${pad})`}>
-          {innerWidth && <Animator path={compPath} />}
+          <Animator path={compPath} />
         </PadTransform>
       </CenterTransform>
     </SvgEl>
