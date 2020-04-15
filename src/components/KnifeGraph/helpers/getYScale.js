@@ -10,8 +10,12 @@ const getYScale = (height, allData, extentD3, scaleD3) => {
     ...acc,
     ...points.map(({ knifeCrime }) => knifeCrime),
   ]), []);
-  const valDomain = extentD3(allDataFlatPoints);
-  const yRange = [height * 0.2, height];
+  const allDataFlatPointsPadded = [
+    ...allDataFlatPoints,
+    allDataFlatPoints[allDataFlatPoints.length - 1] * 1.2,
+  ];
+  const valDomain = extentD3(allDataFlatPointsPadded);
+  const yRange = [height * 0.1, height * 1.1];
   const yScale = scaleD3(valDomain, yRange);
   return yScale;
 };

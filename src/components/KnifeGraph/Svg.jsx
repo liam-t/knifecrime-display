@@ -127,8 +127,10 @@ const Svg = ({
     <SvgEl>
       <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
         <PadTransform transform={`translate(${pad} ${pad})`}>
-          <TipFix d={`${tipPathSection} z`} />
-          <AnimatorStyled path={compPath} />
+          <g opacity={1}>
+            <TipFix d={`${tipPathSection} z`} />
+            <AnimatorStyled path={compPath} />
+          </g>
           <YAxis
             scale={yScale}
             leftOffset={getWidth('tip') - 10}
@@ -137,7 +139,7 @@ const Svg = ({
           <XAxis
             scale={xScale}
             leftOffset={getWidth('tip')}
-            topOffset={cappedInnerHeight + 10}
+            topOffset={(cappedInnerHeight * 0.1) - 20}
             color={axisColor}
           />
           <ChartLine d={chartLinePath} />

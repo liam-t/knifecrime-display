@@ -1,7 +1,7 @@
 import React from 'react';
 import PT from 'prop-types';
 import styled from 'styled-components/macro';
-import { axisBottom, select } from 'd3';
+import { axisTop, select } from 'd3';
 
 const propTypes = {
   scale: PT.func.isRequired,
@@ -15,14 +15,14 @@ const defaultProps = {
 
 const XAxis = ({ scale, topOffset, color }) => {
   const ref = React.useRef(null);
-  const axisGen = axisBottom(scale.nice())
+  const axisGen = axisTop(scale.nice())
     .ticks();
   select(ref.current)
     .call(axisGen)
     .selectAll('text')
-    .style('text-anchor', 'end')
-    .attr('dx', '-1em')
-    .attr('dy', '.15em')
+    .style('text-anchor', 'start')
+    .attr('dx', '1.25em')
+    .attr('dy', '0.5em')
     .attr('transform', 'rotate(-65)');
   return (
     <Axis

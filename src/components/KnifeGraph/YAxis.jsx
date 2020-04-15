@@ -19,7 +19,7 @@ const YAxis = ({ scale, leftOffset, color }) => {
     .ticks(14, '1s');
   const d3Axis = select(ref.current).call(axisGen);
   d3Axis.selectAll('.tick')
-    .classed('minor', (val, i) => i % 4 !== 0);
+    .classed('minor', (val, i) => i % 3 !== 0);
   return (
     <Axis
       transform={`translate(${leftOffset} 0)`}
