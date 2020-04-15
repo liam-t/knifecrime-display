@@ -133,13 +133,13 @@ const Svg = ({
           </g>
           <YAxis
             scale={yScale}
-            leftOffset={getWidth('tip') - 10}
+            leftOffset={getWidth('tip') * 0.96}
             color={axisColor}
           />
           <XAxis
             scale={xScale}
             leftOffset={getWidth('tip')}
-            topOffset={(cappedInnerHeight * 0.1) - 20}
+            topOffset={(cappedInnerHeight * -0.05)}
             color={axisColor}
           />
           <ChartLine d={chartLinePath} />
