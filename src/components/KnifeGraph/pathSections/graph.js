@@ -6,14 +6,10 @@ const getGraph = ({
   yScale,
   getTimeObj,
   getContinuousPath,
+  genPoints,
 }) => {
   // const valDomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
-  const genPoints = activeData.points.map((point) => (
-    [xScale(getTimeObj(point)), yScale(point.knifeCrime)]
-  ));
-
-  const pathSection = line()(genPoints);
-
+  const pathSection = line()(genPoints(activeData, xScale, getTimeObj, yScale));
   return getContinuousPath(pathSection);
 };
 
