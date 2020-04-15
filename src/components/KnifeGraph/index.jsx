@@ -1,9 +1,9 @@
 import React from 'react';
-// import PT from 'prop-types';
+import PT from 'prop-types';
 import styled from 'styled-components/macro';
 import ReactResizeDetector from 'react-resize-detector';
-import Frame from 'components/KnifeGraph/Frame';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
+import Svg from './Svg';
 import {
   collar as getCollarPath,
   graph as getGraphPath,
@@ -12,10 +12,11 @@ import {
 } from './pathSections';
 
 const propTypes = {
-  data: regionDef.isRequired,
+  activeData: regionDef.isRequired,
+  allData: PT.arrayOf(regionDef).isRequired,
 };
 
-const KnifeGraph = ({ data }) => {
+const KnifeGraph = ({ activeData, allData }) => {
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
   const handleResize = (newWidth, newHeight) => {
@@ -33,10 +34,11 @@ const KnifeGraph = ({ data }) => {
   return (
     <KnifeGraphWrap>
       <ReactResizeDetector handleWidth handleHeight onResize={handleResize}>
-        <Frame
+        <Svg
           width={width}
           height={height}
-          data={data}
+          activeData={activeData}
+          allData={allData}
           pathCreators={pathCreators}
         />
       </ReactResizeDetector>

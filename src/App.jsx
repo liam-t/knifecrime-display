@@ -27,7 +27,10 @@ function App() {
         </RegionSelectorWrap>
       </Header>
       <GraphWrap>
-        <KnifeGraph data={selectedRegionData} />
+        <KnifeGraph
+          activeData={selectedRegionData}
+          allData={data.knifeCrimeDataPointsByRegion}
+        />
       </GraphWrap>
       <GlobalStyle />
     </AppWrap>

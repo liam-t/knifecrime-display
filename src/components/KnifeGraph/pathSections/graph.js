@@ -1,5 +1,6 @@
 import {
-  scaleLinear,
+  // scaleLinear,
+  scaleLog,
   scaleTime,
   extent,
   line,
@@ -9,7 +10,8 @@ import { getContinuousPath } from '../helpers';
 const getGraph = ({
   width,
   height,
-  data,
+  activeData,
+  allData,
   leftOffset,
 }) => {
   const getTimeObj = (point) => {
@@ -18,15 +20,23 @@ const getGraph = ({
     return new Date(year, month);
   };
 
-  const valDdomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
-  const timeDomain = [getTimeObj(data.points[0]), getTimeObj(data.points[data.points.length - 1])];
+  // const valDomain = extent(data.points.map(({ knifeCrime }) => knifeCrime));
+  const allDataFlatPoints = allData.reduce((acc, { points }) => ([
+    ...acc,
+    ...points.map(({ knifeCrime }) => knifeCrime),
+  ]), []);
+  const valDomain = extent(allDataFlatPoints);
+  const timeDomain = [
+    getTimeObj(activeData.points[0]),
+    getTimeObj(activeData.points[activeData.points.length - 1]),
+  ];
   const xRange = [leftOffset, leftOffset + width];
   const yRange = [height / 2, height];
   const xScale = scaleTime(timeDomain, xRange);
-  const yScale = scaleLinear(valDdomain, yRange);
+  const yScale = scaleLog(valDomain, yRange);
 
-  // const radiusScale = scaleLinear(valDdomain, [2, 6]);
-  const genPoints = data.points.map((point) => (
+  // const radiusScale = scaleLinear(valDomain, [2, 6]);
+  const genPoints = activeData.points.map((point) => (
     [xScale(getTimeObj(point)), yScale(point.knifeCrime)]
   ));
 

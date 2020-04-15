@@ -1,11 +1,12 @@
 import React from 'react';
 import PT from 'prop-types';
-import styled, { css } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
 import Animator from 'components/Animator';
 
 const propTypes = {
-  data: regionDef.isRequired,
+  activeData: regionDef.isRequired,
+  allData: PT.arrayOf(regionDef).isRequired,
   width: PT.number,
   height: PT.number,
   pathCreators: PT.shape({
@@ -21,8 +22,9 @@ const defaultProps = {
   height: 0,
 };
 
-const Frame = ({
-  data,
+const Svg = ({
+  activeData,
+  allData,
   width,
   height,
   pathCreators,
@@ -59,7 +61,8 @@ const Frame = ({
       height: cappedInnerHeight,
     }),
     pathCreators.getGraphPath({
-      data,
+      activeData,
+      allData,
       width: getWidth('graph'),
       height: cappedInnerHeight,
       leftOffset: getWidth('tip'),
@@ -77,38 +80,26 @@ const Frame = ({
   );
 
   return (
-    <FrameWrap>
-      <Svg>
-        <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
-          <PadTransform transform={`translate(${pad} ${pad})`}>
-            {innerWidth && <Animator path={compPath} />}
-          </PadTransform>
-        </CenterTransform>
-      </Svg>
-    </FrameWrap>
+    <SvgEl>
+      <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
+        <PadTransform transform={`translate(${pad} ${pad})`}>
+          {innerWidth && <Animator path={compPath} />}
+        </PadTransform>
+      </CenterTransform>
+    </SvgEl>
   );
 };
-Frame.propTypes = propTypes;
-Frame.defaultProps = defaultProps;
+Svg.propTypes = propTypes;
+Svg.defaultProps = defaultProps;
 
-export default Frame;
+export default Svg;
 
-const absCss = css`
+const SvgEl = styled.svg`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-`;
-
-const FrameWrap = styled.div`
-  ${absCss};
-`;
-const Svg = styled.svg`
-  ${absCss};
-`;
-const KnifePath = styled.path`
-  fill: white;
 `;
 const PadTransform = styled.g``;
 const CenterTransform = styled.g``;

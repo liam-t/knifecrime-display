@@ -1,8 +1,7 @@
 import React from 'react';
 import PT from 'prop-types';
-import styled from 'styled-components/macro';
 import { interpolate as flubber } from 'flubber';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated, config } from 'react-spring';
 
 const propTypes = {
   className: PT.string,
@@ -25,8 +24,12 @@ const Animator = ({ className, path }) => {
     t: 1,
     from: { t: 0 },
     reset: true,
+    config: config.stiff,
   });
-  const flubberPath = flubber(...flubberPaths);
+
+  const flubberOptions = { maxSegmentLength: 10 };
+
+  const flubberPath = flubber(...flubberPaths, flubberOptions);
   return (
     <>
       <animated.path
@@ -40,5 +43,3 @@ Animator.propTypes = propTypes;
 Animator.defaultProps = defaultProps;
 
 export default Animator;
-
-// const AnimatorWrap = styled.div``;

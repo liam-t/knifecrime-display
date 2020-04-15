@@ -3,7 +3,6 @@ const getTip = ({ width: w, height: h }) => {
     M ${w} 0
     H 0
     C ${w / 2} ${h}, ${w} ${h}, ${w} ${h}
-    H ${w}
   `;
 
   return areaPath;
