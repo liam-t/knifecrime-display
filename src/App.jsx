@@ -49,6 +49,7 @@ const AppWrap = styled.div`
   background-color: #222;
   color: white;
   padding: 20px;
+  overflow: hidden;
   @media screen and (min-width: 768px) {
     padding: 40px;
   }
@@ -92,7 +93,6 @@ const Decoration = styled.div`
   top: 50%;
   left: 50%;
   width: 50%;
-  /* height: 100%; */
   height: 0;
   padding-bottom: 50%;
   border-radius: 50%;
