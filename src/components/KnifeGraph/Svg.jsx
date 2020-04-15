@@ -80,35 +80,41 @@ const Svg = ({
     scaleLog,
   );
 
+  const tipPathSection = pathCreators.getTipPath({
+    width: getWidth('tip'),
+    height: cappedInnerHeight,
+  });
+  const graphPathSection = pathCreators.getGraphPath({
+    activeData,
+    xScale,
+    yScale,
+    getTimeObj,
+    getContinuousPath,
+  });
+  const collarPathSection = pathCreators.getCollarPath({
+    width: getWidth('collar'),
+    height: cappedInnerHeight,
+    leftOffset: getWidth('tip', 'graph'),
+  });
+  const handlePathSection = pathCreators.getHandlePath({
+    width: getWidth('handle'),
+    height: cappedInnerHeight,
+    leftOffset: getWidth('tip', 'graph', 'collar'),
+    getContinuousPath,
+  });
+
   const compPath = joinPaths(
-    pathCreators.getTipPath({
-      width: getWidth('tip'),
-      height: cappedInnerHeight,
-    }),
-    pathCreators.getGraphPath({
-      activeData,
-      xScale,
-      yScale,
-      getTimeObj,
-      getContinuousPath,
-    }),
-    pathCreators.getCollarPath({
-      width: getWidth('collar'),
-      height: cappedInnerHeight,
-      leftOffset: getWidth('tip', 'graph'),
-    }),
-    pathCreators.getHandlePath({
-      width: getWidth('handle'),
-      height: cappedInnerHeight,
-      leftOffset: getWidth('tip', 'graph', 'collar'),
-      getContinuousPath,
-    }),
+    tipPathSection,
+    graphPathSection,
+    collarPathSection,
+    handlePathSection,
   );
 
   return (
     <SvgEl>
       <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
         <PadTransform transform={`translate(${pad} ${pad})`}>
+          <TipFix d={`${tipPathSection} z`} />
           <Animator path={compPath} />
         </PadTransform>
       </CenterTransform>
@@ -127,5 +133,6 @@ const SvgEl = styled.svg`
   width: 100%;
   height: 100%;
 `;
+const TipFix = styled.path``;
 const PadTransform = styled.g``;
 const CenterTransform = styled.g``;
