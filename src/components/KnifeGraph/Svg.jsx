@@ -8,12 +8,15 @@ import {
   scaleLinear,
   scaleTime,
   extent,
+  line,
+  curveBundle,
 } from 'd3';
 import {
   getXScale,
   getYScale,
   getTimeObj,
   getContinuousPath,
+  genPoints,
 } from './helpers/index.js';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
@@ -94,6 +97,7 @@ const Svg = ({
     yScale,
     getTimeObj,
     getContinuousPath,
+    genPoints,
   });
   const collarPathSection = pathCreators.getCollarPath({
     width: getWidth('collar'),
@@ -116,6 +120,9 @@ const Svg = ({
 
   const axisColor = 'white';
 
+  const charLineGen = line().curve(curveBundle.beta(0.7));
+  const chartLinePath = charLineGen(genPoints(activeData, xScale, getTimeObj, yScale));
+
   return (
     <SvgEl>
       <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
@@ -133,6 +140,7 @@ const Svg = ({
             topOffset={cappedInnerHeight + 10}
             color={axisColor}
           />
+          <ChartLine d={chartLinePath} />
         </PadTransform>
       </CenterTransform>
     </SvgEl>
@@ -157,4 +165,11 @@ const PadTransform = styled.g``;
 const CenterTransform = styled.g``;
 const AnimatorStyled = styled(Animator)`
   fill: #f42;
+`;
+
+const ChartLine = styled.path`
+  stroke: white;
+  stroke-width: 1.5;
+  stroke-dasharray: 5, 2;
+  fill: none;
 `;
