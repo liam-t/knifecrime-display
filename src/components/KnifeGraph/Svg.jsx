@@ -4,7 +4,8 @@ import styled from 'styled-components/macro';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
 import Animator from 'components/Animator';
 import {
-  scaleLog,
+  // scaleLog,
+  scaleLinear,
   scaleTime,
   extent,
 } from 'd3';
@@ -14,6 +15,8 @@ import {
   getTimeObj,
   getContinuousPath,
 } from './helpers/index.js';
+import YAxis from './YAxis';
+import XAxis from './XAxis';
 
 const propTypes = {
   activeData: regionDef.isRequired,
@@ -44,7 +47,7 @@ const Svg = ({
   const innerWidth = Math.max(width - (pad * 2), 0);
   const innerHeight = Math.max(height - (pad * 2), 0);
 
-  const cappedInnerHeight = Math.min(innerHeight, innerWidth * 0.15);
+  const cappedInnerHeight = Math.min(innerHeight, innerWidth * 0.2);
 
   const widthPercentages = {
     tip: 25,
@@ -77,7 +80,8 @@ const Svg = ({
     cappedInnerHeight,
     allData,
     extent,
-    scaleLog,
+    scaleLinear,
+    // scaleLog,
   );
 
   const tipPathSection = pathCreators.getTipPath({
@@ -110,12 +114,25 @@ const Svg = ({
     handlePathSection,
   );
 
+  const axisColor = 'white';
+
   return (
     <SvgEl>
       <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
         <PadTransform transform={`translate(${pad} ${pad})`}>
           <TipFix d={`${tipPathSection} z`} />
           <AnimatorStyled path={compPath} />
+          <YAxis
+            scale={yScale}
+            leftOffset={getWidth('tip') - 10}
+            color={axisColor}
+          />
+          <XAxis
+            scale={xScale}
+            leftOffset={getWidth('tip')}
+            topOffset={cappedInnerHeight + 10}
+            color={axisColor}
+          />
         </PadTransform>
       </CenterTransform>
     </SvgEl>

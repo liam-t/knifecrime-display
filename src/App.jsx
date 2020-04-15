@@ -16,7 +16,7 @@ function App() {
       <Header>
         <Titling>
           <Title>{selectedRegion}</Title>
-          <Subtitle>Knife crime over time</Subtitle>
+          <Subtitle>Knife crime incidents over time</Subtitle>
         </Titling>
         <RegionSelectorWrap>
           <RegionSelector
@@ -96,6 +96,6 @@ const Decoration = styled.div`
   height: 0;
   padding-bottom: 40%;
   border-radius: 50%;
-  background-color: #333;
+  background-color: #2b2b2b;
   transform: translate(-50%, -50%);
 `;
