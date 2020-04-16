@@ -6,7 +6,8 @@ import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index
 const propTypes = {
   height: PT.number.isRequired,
   getTimeObj: PT.func.isRequired,
-  compiledScale: PT.func.isRequired,
+  compiledXScale: PT.func.isRequired,
+  compiledYScale: PT.func.isRequired,
   activeData: regionDef.isRequired,
 };
 const defaultProps = {};
@@ -14,26 +15,35 @@ const defaultProps = {};
 const HoverLines = ({
   height,
   getTimeObj,
-  compiledScale,
+  compiledXScale,
+  compiledYScale,
   activeData,
 }) => {
+  const isNearestToCursor = (x) => true;
   return (
     <HoverLinesWrap>
       {activeData.points.map((point) => {
         const {
           year,
           quarter,
-          // knifecrime,
+          knifeCrime,
         } = point;
-        const xPos = compiledScale(getTimeObj(point));
+        const xPos = compiledXScale(getTimeObj(point));
+        const yPos = compiledYScale(knifeCrime);
         return (
-          <Line
-            key={`${year}-${quarter}`}
-            x1={xPos}
-            y1={0}
-            x2={xPos}
-            y2={height}
-          />
+          <Point key={`${year}-${quarter}`} className={isNearestToCursor(xPos) ? 'active' : ''}>
+            <Line
+              x1={xPos}
+              y1={0}
+              x2={xPos}
+              y2={height}
+            />
+            <Circle
+              r={3}
+              cx={xPos}
+              cy={yPos}
+            />
+          </Point>
         );
       })}
     </HoverLinesWrap>
@@ -45,6 +55,15 @@ export default HoverLines;
 
 
 const HoverLinesWrap = styled.g``;
+const Point = styled.g`
+  opacity: 0;
+  &.active {
+    opacity: 1;
+  }
+`;
 const Line = styled.line`
   stroke: white;
+`;
+const Circle = styled.circle`
+  fill: white;
 `;

@@ -153,7 +153,8 @@ const Svg = ({
           <HoverLines
             height={cappedInnerHeight}
             getTimeObj={getTimeObj}
-            compiledScale={xScale}
+            compiledXScale={xScale}
+            compiledYScale={yScale}
             activeData={activeData}
           />
           {/* <ChartLine d={chartLinePath} /> */}
