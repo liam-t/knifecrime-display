@@ -1,6 +1,6 @@
 import React from 'react';
 import PT from 'prop-types';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
 import Animator from 'components/Animator';
 import {
@@ -120,17 +120,15 @@ const Svg = ({
 
   const axisColor = 'white';
 
-  const charLineGen = line().curve(curveBundle.beta(0.7));
-  const chartLinePath = charLineGen(genPoints(activeData, xScale, getTimeObj, yScale));
+  // const charLineGen = line().curve(curveBundle.beta(0.7));
+  // const chartLinePath = charLineGen(genPoints(activeData, xScale, getTimeObj, yScale));
 
   return (
     <SvgEl>
       <CenterTransform transform={`translate(0 ${(innerHeight - cappedInnerHeight) / 2})`}>
         <PadTransform transform={`translate(${pad} ${pad})`}>
-          <g opacity={1}>
-            <TipFix d={`${tipPathSection} z`} />
-            <AnimatorStyled path={compPath} />
-          </g>
+          <TipFix d={`${tipPathSection} z`} />
+          <AnimatorStyled path={compPath} />
           <YAxis
             scale={yScale}
             leftOffset={getWidth('tip') * 0.96}
@@ -142,7 +140,7 @@ const Svg = ({
             topOffset={(cappedInnerHeight * -0.05)}
             color={axisColor}
           />
-          <ChartLine d={chartLinePath} />
+          {/* <ChartLine d={chartLinePath} /> */}
         </PadTransform>
       </CenterTransform>
     </SvgEl>
@@ -162,6 +160,10 @@ const SvgEl = styled.svg`
 `;
 const TipFix = styled.path`
   fill: #f42;
+  animation: ${keyframes`
+    from { opacity: 0 }
+    to { opacity: 1 }
+  `} 0.5s 1s linear both;
 `;
 const PadTransform = styled.g``;
 const CenterTransform = styled.g``;
@@ -169,9 +171,9 @@ const AnimatorStyled = styled(Animator)`
   fill: #f42;
 `;
 
-const ChartLine = styled.path`
-  stroke: white;
-  stroke-width: 1.5;
-  stroke-dasharray: 5, 2;
-  fill: none;
-`;
+// const ChartLine = styled.path`
+//   stroke: white;
+//   stroke-width: 1.5;
+//   stroke-dasharray: 5, 2;
+//   fill: none;
+// `;
