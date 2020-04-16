@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import { axisTop, select } from 'd3';
 
 const propTypes = {
-  scale: PT.func.isRequired,
+  compiledScale: PT.func.isRequired,
   topOffset: PT.number,
   color: PT.string,
 };
@@ -13,9 +13,9 @@ const defaultProps = {
   color: 'white',
 };
 
-const XAxis = ({ scale, topOffset, color }) => {
+const XAxis = ({ compiledScale, topOffset, color }) => {
   const ref = React.useRef(null);
-  const axisGen = axisTop(scale.nice())
+  const axisGen = axisTop(compiledScale)
     .ticks();
   select(ref.current)
     .call(axisGen)

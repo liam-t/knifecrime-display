@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import { axisLeft, select } from 'd3';
 
 const propTypes = {
-  scale: PT.func.isRequired,
+  compiledScale: PT.func.isRequired,
   leftOffset: PT.number,
   color: PT.string,
 };
@@ -13,9 +13,9 @@ const defaultProps = {
   color: 'white',
 };
 
-const YAxis = ({ scale, leftOffset, color }) => {
+const YAxis = ({ compiledScale, leftOffset, color }) => {
   const ref = React.useRef(null);
-  const axisGen = axisLeft(scale.nice())
+  const axisGen = axisLeft(compiledScale.nice())
     .ticks(15, '1s');
   const d3Axis = select(ref.current).call(axisGen);
   d3Axis.selectAll('.tick')

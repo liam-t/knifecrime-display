@@ -21,6 +21,7 @@ import {
 import YAxis from './YAxis';
 import XAxis from './XAxis';
 import Grid from './Grid';
+import HoverLines from './HoverLines';
 
 const propTypes = {
   activeData: regionDef.isRequired,
@@ -133,13 +134,12 @@ const Svg = ({
           <TipFix d={`${tipPathSection} z`} />
           <AnimatorStyled path={compPath} />
           <YAxis
-            scale={yScale}
+            compiledScale={yScale}
             leftOffset={getWidth('tip') * 0.96}
             color={axisColor}
           />
           <XAxis
-            scale={xScale}
-            leftOffset={getWidth('tip')}
+            compiledScale={xScale}
             topOffset={cappedInnerHeight * -0.05}
             color={axisColor}
           />
@@ -149,6 +149,12 @@ const Svg = ({
             leftOffset={getWidth('tip')}
             d3Scale={scaleLinear}
             range={yScaleRange}
+          />
+          <HoverLines
+            height={cappedInnerHeight}
+            getTimeObj={getTimeObj}
+            compiledScale={xScale}
+            activeData={activeData}
           />
           {/* <ChartLine d={chartLinePath} /> */}
         </PadTransform>
