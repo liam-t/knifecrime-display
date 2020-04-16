@@ -1,7 +1,12 @@
 const getTimeObj = (point) => {
   const [year] = point.year.split('/');
-  const month = (point.quarter.split('')[1] * 3) - 1;
-  return new Date(year, month);
+  const quarterNum = Number(point.quarter.split('')[1]);
+
+  const startOfFinancialYear = new Date(year, 4);
+  const dateOffsetByQuarter = (
+    startOfFinancialYear.setMonth(startOfFinancialYear.getMonth() + quarterNum * 3)
+  );
+  return new Date(dateOffsetByQuarter);
 };
 
 export default getTimeObj;

@@ -13,7 +13,7 @@ const getXScale = (width, activeData, getTimeObj, scaleD3, leftOffset = 0) => {
   ];
   const xRange = [leftOffset, leftOffset + width];
   const xScale = scaleD3(timeDomain, xRange);
-  return xScale;
+  return xScale.nice();
 };
 
 export default getXScale;

@@ -15,8 +15,7 @@ const defaultProps = {
 
 const XAxis = ({ compiledScale, topOffset, color }) => {
   const ref = React.useRef(null);
-  const axisGen = axisTop(compiledScale)
-    .ticks();
+  const axisGen = axisTop(compiledScale);
   select(ref.current)
     .call(axisGen)
     .selectAll('text')
