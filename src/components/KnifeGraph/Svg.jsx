@@ -8,8 +8,8 @@ import {
   scaleLinear,
   scaleTime,
   extent,
-  line,
-  curveBundle,
+  // line,
+  // curveBundle,
 } from 'd3';
 import {
   getXScale,
@@ -20,6 +20,7 @@ import {
 } from './helpers/index.js';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
+import Grid from './Grid';
 
 const propTypes = {
   activeData: regionDef.isRequired,
@@ -79,11 +80,13 @@ const Svg = ({
     scaleTime,
     getWidth('tip'),
   );
+  const yScaleRange = [cappedInnerHeight * 0.1, cappedInnerHeight * 1.1];
   const yScale = getYScale(
     cappedInnerHeight,
     allData,
     extent,
     scaleLinear,
+    yScaleRange,
     // scaleLog,
   );
 
@@ -137,8 +140,15 @@ const Svg = ({
           <XAxis
             scale={xScale}
             leftOffset={getWidth('tip')}
-            topOffset={(cappedInnerHeight * -0.05)}
+            topOffset={cappedInnerHeight * -0.05}
             color={axisColor}
+          />
+          <Grid
+            width={getWidth('graph')}
+            height={cappedInnerHeight}
+            leftOffset={getWidth('tip')}
+            d3Scale={scaleLinear}
+            range={yScaleRange}
           />
           {/* <ChartLine d={chartLinePath} /> */}
         </PadTransform>

@@ -16,10 +16,11 @@ const defaultProps = {
 const YAxis = ({ scale, leftOffset, color }) => {
   const ref = React.useRef(null);
   const axisGen = axisLeft(scale.nice())
-    .ticks(14, '1s');
+    .ticks(15, '1s');
   const d3Axis = select(ref.current).call(axisGen);
   d3Axis.selectAll('.tick')
-    .classed('minor', (val, i) => i % 3 !== 0);
+    .classed('minor', (_, i) => i % 5 !== 0)
+    .classed('desktop-only', (_, i) => i % 5 !== 0);
   return (
     <Axis
       transform={`translate(${leftOffset} 0)`}
@@ -51,6 +52,12 @@ const Axis = styled.g`
       }
       text {
         display: none;
+      }
+    }
+    &.desktop-only {
+      display: none;
+      @media screen and (min-width: 768px) {
+        display: block;
       }
     }
   }

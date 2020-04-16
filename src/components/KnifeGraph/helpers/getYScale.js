@@ -5,7 +5,13 @@
  * @param {function} extentD3 d3's extent function
  * @param {function} scaleD3 a d3 scale function
  */
-const getYScale = (height, allData, extentD3, scaleD3) => {
+const getYScale = (
+  height,
+  allData,
+  extentD3,
+  scaleD3,
+  yRange = [0, height],
+) => {
   const allDataFlatPoints = allData.reduce((acc, { points }) => ([
     ...acc,
     ...points.map(({ knifeCrime }) => knifeCrime),
@@ -15,7 +21,6 @@ const getYScale = (height, allData, extentD3, scaleD3) => {
     allDataFlatPoints[allDataFlatPoints.length - 1] * 1.2,
   ];
   const valDomain = extentD3(allDataFlatPointsPadded);
-  const yRange = [height * 0.1, height * 1.1];
   const yScale = scaleD3(valDomain, yRange);
   return yScale;
 };
