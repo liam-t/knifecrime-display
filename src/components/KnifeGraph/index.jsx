@@ -17,12 +17,14 @@ const propTypes = {
 };
 
 const KnifeGraph = ({ activeData, allData }) => {
+  const [selectedPoint, setSelectedPoint] = React.useState(false);
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
   const handleResize = (newWidth, newHeight) => {
     setWidth(newWidth);
     setHeight(newHeight);
   };
+  const handleSelectedPointChange = (point) => setSelectedPoint(point);
 
   const pathCreators = {
     getCollarPath,
@@ -30,7 +32,6 @@ const KnifeGraph = ({ activeData, allData }) => {
     getHandlePath,
     getTipPath,
   };
-
   return (
     <KnifeGraphWrap>
       <ReactResizeDetector handleWidth handleHeight onResize={handleResize}>
@@ -40,6 +41,8 @@ const KnifeGraph = ({ activeData, allData }) => {
           activeData={activeData}
           allData={allData}
           pathCreators={pathCreators}
+          selectedPoint={selectedPoint}
+          onSelectedPointChange={handleSelectedPointChange}
         />
       </ReactResizeDetector>
     </KnifeGraphWrap>

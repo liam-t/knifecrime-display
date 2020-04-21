@@ -1,7 +1,8 @@
 import React from 'react';
 import PT from 'prop-types';
 import styled, { keyframes } from 'styled-components/macro';
-import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
+import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index';
+import pointDef from 'modeling/knifeCrimeDataPointsByRegion/point';
 import Animator from 'components/Animator';
 import {
   // scaleLog,
@@ -34,11 +35,17 @@ const propTypes = {
     getHandlePath: PT.func.isRequired,
     getTipPath: PT.func.isRequired,
   }).isRequired,
+  onSelectedPointChange: PT.func,
+  selectedPoint: PT.oneOfType([
+    PT.bool,
+    pointDef,
+  ]).isRequired,
 };
 
 const defaultProps = {
   width: 0,
   height: 0,
+  onSelectedPointChange: () => {},
 };
 
 const Svg = ({
@@ -47,6 +54,8 @@ const Svg = ({
   width,
   height,
   pathCreators,
+  onSelectedPointChange,
+  selectedPoint,
 }) => {
   const pad = 50;
   const innerWidth = Math.max(width - (pad * 2), 0);
@@ -156,6 +165,8 @@ const Svg = ({
             compiledXScale={xScale}
             compiledYScale={yScale}
             activeData={activeData}
+            onSelectedPointChange={onSelectedPointChange}
+            selectedPoint={selectedPoint}
           />
           {/* <ChartLine d={chartLinePath} /> */}
         </PadTransform>

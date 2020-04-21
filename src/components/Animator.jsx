@@ -46,4 +46,6 @@ const Animator = ({ className, path }) => {
 Animator.propTypes = propTypes;
 Animator.defaultProps = defaultProps;
 
-export default Animator;
+export default React.memo(Animator, (prevProps, newProps) => (
+  prevProps.path === newProps.path
+));
