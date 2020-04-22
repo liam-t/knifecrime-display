@@ -6,7 +6,6 @@ import quarterlyAveragesDef from 'modeling/quarterlyAverages';
 import pointDef from 'modeling/dataPoint';
 import Animator from 'components/Animator';
 import {
-  scaleLog,
   scaleSymlog,
   scaleLinear,
   scaleTime,
@@ -62,7 +61,10 @@ const Svg = ({
   onSelectedPointChange,
   selectedPoint,
 }) => {
-  const [useLogScale, setUseLogScale] = React.useState(false);
+  const [
+    useLogScale,
+    // setUseLogScale,
+  ] = React.useState(false);
   const activeYScale = useLogScale ? scaleSymlog : scaleLinear;
 
   const pad = 50;
@@ -168,10 +170,6 @@ const Svg = ({
             range={yScaleRange}
           />
           <QuarterlyAverageLine
-            width={getWidth('graph')}
-            height={cappedInnerHeight}
-            leftOffset={getWidth('tip')}
-            d3Scale={scaleLinear}
             data={avgData}
             compiledXScale={xScale}
             compiledYScale={yScale}
