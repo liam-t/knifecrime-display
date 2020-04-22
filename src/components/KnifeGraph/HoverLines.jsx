@@ -77,9 +77,9 @@ const HoverLines = ({
 HoverLines.propTypes = propTypes;
 HoverLines.defaultProps = defaultProps;
 export default React.memo(HoverLines, (prevProps, newProps) => {
-  console.log('prevProps.selectedPoint: %o', prevProps.selectedPoint);
-  console.log('newProps: %o', newProps);
-  console.log('');
+  // console.log('prevProps.selectedPoint: %o', prevProps.selectedPoint);
+  // console.log('newProps: %o', newProps);
+  // console.log('');
   return prevProps.selectedPoint !== newProps.selectedPoint;
 });
 
