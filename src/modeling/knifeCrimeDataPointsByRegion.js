@@ -1,5 +1,5 @@
 import PT from 'prop-types';
-import point from './point.js';
+import point from './dataPoint.js';
 
 export const region = PT.shape({
   total: PT.number.isRequired,
