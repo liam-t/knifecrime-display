@@ -1,8 +1,8 @@
 import React from 'react';
 import PT from 'prop-types';
 import styled from 'styled-components/macro';
-import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index';
-import pointDef from 'modeling/knifeCrimeDataPointsByRegion/point';
+import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion';
+import pointDef from 'modeling/dataPoint';
 
 const propTypes = {
   height: PT.number.isRequired,

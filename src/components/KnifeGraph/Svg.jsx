@@ -1,11 +1,13 @@
 import React from 'react';
 import PT from 'prop-types';
 import styled, { keyframes } from 'styled-components/macro';
-import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index';
-import pointDef from 'modeling/knifeCrimeDataPointsByRegion/point';
+import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion';
+import quarterlyAveragesDef from 'modeling/quarterlyAverages';
+import pointDef from 'modeling/dataPoint';
 import Animator from 'components/Animator';
 import {
-  // scaleLog,
+  scaleLog,
+  scaleSymlog,
   scaleLinear,
   scaleTime,
   extent,
@@ -23,10 +25,12 @@ import YAxis from './YAxis';
 import XAxis from './XAxis';
 import Grid from './Grid';
 import HoverLines from './HoverLines';
+import QuarterlyAverageLine from './QuarterlyAverageLine';
 
 const propTypes = {
   activeData: regionDef.isRequired,
   allData: PT.arrayOf(regionDef).isRequired,
+  avgData: quarterlyAveragesDef.isRequired,
   width: PT.number,
   height: PT.number,
   pathCreators: PT.shape({
@@ -51,12 +55,16 @@ const defaultProps = {
 const Svg = ({
   activeData,
   allData,
+  avgData,
   width,
   height,
   pathCreators,
   onSelectedPointChange,
   selectedPoint,
 }) => {
+  const [useLogScale, setUseLogScale] = React.useState(false);
+  const activeYScale = useLogScale ? scaleSymlog : scaleLinear;
+
   const pad = 50;
   const innerWidth = Math.max(width - (pad * 2), 0);
   const innerHeight = Math.max(height - (pad * 2), 0);
@@ -95,9 +103,9 @@ const Svg = ({
     cappedInnerHeight,
     allData,
     extent,
-    scaleLinear,
+    activeYScale,
     yScaleRange,
-    // scaleLog,
+    // scaleLinear;
   );
 
   const tipPathSection = pathCreators.getTipPath({
@@ -156,8 +164,17 @@ const Svg = ({
             width={getWidth('graph')}
             height={cappedInnerHeight}
             leftOffset={getWidth('tip')}
-            d3Scale={scaleLinear}
+            d3Scale={activeYScale}
             range={yScaleRange}
+          />
+          <QuarterlyAverageLine
+            width={getWidth('graph')}
+            height={cappedInnerHeight}
+            leftOffset={getWidth('tip')}
+            d3Scale={scaleLinear}
+            data={avgData}
+            compiledXScale={xScale}
+            compiledYScale={yScale}
           />
           <HoverLines
             height={cappedInnerHeight}

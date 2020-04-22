@@ -10,7 +10,7 @@ import {
   axisBottom,
   axisLeft,
 } from 'd3';
-import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
+import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion';
 
 const propTypes = {
   data: regionDef.isRequired,

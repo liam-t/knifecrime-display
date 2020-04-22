@@ -31,6 +31,7 @@ function App() {
         <KnifeGraph
           activeData={selectedRegionData}
           allData={data.knifeCrimeDataPointsByRegion}
+          avgData={data.quarterlyAverages}
         />
       </GraphWrap>
       <GlobalStyle />

@@ -16,7 +16,7 @@ const defaultProps = {
 const YAxis = ({ compiledScale, leftOffset, color }) => {
   const ref = React.useRef(null);
   const axisGen = axisLeft(compiledScale.nice())
-    .ticks(15, '1s');
+    .ticks(15, '.0s');
   const d3Axis = select(ref.current).call(axisGen);
   d3Axis.selectAll('.tick')
     .classed('minor', (_, i) => i % 5 !== 0)

@@ -22,6 +22,7 @@ const getYScale = (
   ];
   const valDomain = extentD3(allDataFlatPointsPadded);
   const yScale = scaleD3(valDomain, yRange);
+  if (typeof yScale.constant === 'function') yScale.constant(500);
   return yScale;
 };
 

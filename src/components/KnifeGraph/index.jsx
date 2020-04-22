@@ -2,7 +2,8 @@ import React from 'react';
 import PT from 'prop-types';
 import styled from 'styled-components/macro';
 import ReactResizeDetector from 'react-resize-detector';
-import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion/index.js';
+import { region as regionDef } from 'modeling/knifeCrimeDataPointsByRegion';
+import quarterlyAveragesDef from 'modeling/quarterlyAverages';
 import Svg from './Svg';
 import {
   collar as getCollarPath,
@@ -14,9 +15,10 @@ import {
 const propTypes = {
   activeData: regionDef.isRequired,
   allData: PT.arrayOf(regionDef).isRequired,
+  avgData: quarterlyAveragesDef.isRequired,
 };
 
-const KnifeGraph = ({ activeData, allData }) => {
+const KnifeGraph = ({ activeData, allData, avgData }) => {
   const [selectedPoint, setSelectedPoint] = React.useState(false);
   const [width, setWidth] = React.useState(0);
   const [height, setHeight] = React.useState(0);
@@ -40,6 +42,7 @@ const KnifeGraph = ({ activeData, allData }) => {
           height={height}
           activeData={activeData}
           allData={allData}
+          avgData={avgData}
           pathCreators={pathCreators}
           selectedPoint={selectedPoint}
           onSelectedPointChange={handleSelectedPointChange}
