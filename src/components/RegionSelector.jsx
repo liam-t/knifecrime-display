@@ -17,6 +17,7 @@ const RegionSelector = ({ names, onChange, selectedRegion }) => {
       <Select
         options={options}
         onChange={handleChange}
+        isSearchable={false}
         value={{
           label: selectedRegion,
           value: selectedRegion,
