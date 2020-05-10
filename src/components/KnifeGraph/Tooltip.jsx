@@ -81,7 +81,10 @@ const Tooltip = ({
             preserveValue
           >
             {({ countUpRef }) => (
-              <tspan ref={countUpRef} />
+              <>
+                <tspan>Incidents: </tspan>
+                <tspan ref={countUpRef} />
+              </>
             )}
           </Countup>
         </Stat>
