@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/knifecrime-display/precache-manifest.5a9573448dc86562fc400d4601d4741d.js"
+  "/knifecrime-display/precache-manifest.6b09c7e75b7dcc84495920ec8c6558d7.js"
 );
 
 self.addEventListener('message', (event) => {
