@@ -25,6 +25,7 @@ import XAxis from './XAxis';
 import Grid from './Grid';
 import HoverLines from './HoverLines';
 import QuarterlyAverageLine from './QuarterlyAverageLine';
+import Tooltip from './Tooltip';
 
 const propTypes = {
   activeData: regionDef.isRequired,
@@ -184,6 +185,12 @@ const Svg = ({
             selectedPoint={selectedPoint}
           />
           {/* <ChartLine d={chartLinePath} /> */}
+          <Tooltip
+            getTimeObj={getTimeObj}
+            compiledXScale={xScale}
+            compiledYScale={yScale}
+            selectedPoint={selectedPoint}
+          />
         </PadTransform>
       </CenterTransform>
     </SvgEl>
