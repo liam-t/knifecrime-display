@@ -3,6 +3,7 @@ import PT from 'prop-types';
 import styled from 'styled-components/macro';
 import pointDef from 'modeling/dataPoint';
 import { useSpring, animated } from 'react-spring';
+import Countup from 'react-countup';
 
 const propTypes = {
   getTimeObj: PT.func.isRequired,
@@ -26,16 +27,21 @@ const Tooltip = ({
     knifeCrime,
   } = selectedPoint;
 
+  const springConfig = {
+    mass: 1,
+    tension: 400,
+    friction: 30,
+    velocity: 0,
+  };
+
   const {
     x: springX,
     y: springY,
   } = useSpring({
     x: selectedPoint ? compiledXScale(getTimeObj(selectedPoint)) + 5 : 0,
     y: compiledYScale(knifeCrime) || 0,
-    from: {
-      x: 0,
-      y: 0,
-    },
+    from: { x: 0, y: 0 },
+    config: springConfig,
   });
 
   const width = 115;
@@ -68,7 +74,16 @@ const Tooltip = ({
           y={springY}
           dy="1em"
         >
-          {knifeCrime} incidents
+          <Countup
+            duration={0.25}
+            end={knifeCrime}
+            separator=","
+            preserveValue
+          >
+            {({ countUpRef }) => (
+              <tspan ref={countUpRef} />
+            )}
+          </Countup>
         </Stat>
       </TooltipWrap>
     ) : null
@@ -88,4 +103,7 @@ const Bg = styled(animated.rect)`
 const Year = styled(animated.text)`
   font-weight: bold;
 `;
-const Stat = styled(animated.text)``;
+const Stat = styled(animated.text)`
+  fill: black;
+  color: black;
+`;
