@@ -46,4 +46,12 @@ const Axis = styled.g`
     fill: ${(p) => p.color};
     font-weight: bold;
   }
+  g:nth-child(odd) {
+    text {
+      display: none;
+      @media screen and (min-width: 400px) {
+        display: block;
+      }
+    }
+  }
 `;

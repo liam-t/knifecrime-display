@@ -80,6 +80,10 @@ const RegionSelectorWrap = styled.div`
   width: 10em;
   max-width: 100%;
   color: black;
+  margin-top: 20px;
+  @media screen and (min-width: 500px) {
+    margin-top: 0;
+  }
 `;
 const GraphWrap = styled.div`
   position: relative;
