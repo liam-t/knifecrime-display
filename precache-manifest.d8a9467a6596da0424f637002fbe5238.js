@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a7ca19a92e6b349d80bd417a048e30fc",
+    "revision": "5898c19d96fdad38efe73d3fd7b191cc",
     "url": "/knifecrime-display/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/knifecrime-display/static/js/2.52719f38.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "9c40fc0c43c3728f8c8a",
-    "url": "/knifecrime-display/static/js/main.47d8297a.chunk.js"
+    "revision": "31f6a3c4b3b599eb898c",
+    "url": "/knifecrime-display/static/js/main.7139fe5d.chunk.js"
   },
   {
     "revision": "e253537dfe0c872be199",
