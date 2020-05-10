@@ -76,6 +76,7 @@ const Tooltip = ({
         >
           <Countup
             duration={0.25}
+            delay={0}
             end={knifeCrime}
             separator=","
             preserveValue
