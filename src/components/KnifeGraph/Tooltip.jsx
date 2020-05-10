@@ -26,29 +26,17 @@ const Tooltip = ({
     knifeCrime,
   } = selectedPoint;
 
-  const getX = (point) => (
-    point ? compiledXScale(getTimeObj(point)) + 5 : 0
-  );
-  const getY = (point) => compiledYScale(point.knifeCrime) || 0;
-
-  const [bufferedXy, setBufferedXy] = React.useState([getX(selectedPoint), getY(selectedPoint)]);
-  const [bufferedX, bufferedY] = bufferedXy;
-
   const {
     x: springX,
     y: springY,
   } = useSpring({
-    x: bufferedX,
-    y: bufferedY,
+    x: selectedPoint ? compiledXScale(getTimeObj(selectedPoint)) + 5 : 0,
+    y: compiledYScale(knifeCrime) || 0,
     from: {
       x: 0,
       y: 0,
     },
   });
-
-  React.useEffect(() => {
-    setBufferedXy([getX(selectedPoint), getY(selectedPoint)]);
-  }, [selectedPoint, getX, getY]);
 
   const width = 115;
   const height = 60;
@@ -87,8 +75,8 @@ const Tooltip = ({
   );
 };
 Tooltip.propTypes = propTypes;
-
 export default Tooltip;
+
 
 const TooltipWrap = styled.g`
   fill: black;
