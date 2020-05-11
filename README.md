@@ -1,4 +1,4 @@
-# UK Knifecrime Data Display
+## UK Knifecrime Data Display
 
 Test page available [here](https://liam-t.github.io/knifecrime-display/).
 
