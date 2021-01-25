@@ -1,6 +1,6 @@
 ## UK Knifecrime Data Display
 
-**Demo page [here](https://liam-t.github.io/radar-chart).**
+**Demo page [here](https://liam-t.github.io/knifecrime-display/).**
 
 This project visualises the data created from my [knifecrime data repo](https://github.com/liam-t/knifecrime-data).
 
